@@ -1,0 +1,443 @@
+<html> 
+<head> 
+<title>Unos Empreendedores</title> 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width,user-scalable=no" />
+  
+<script type="text/javascript"  charset="utf-8" src="cordova-1.7.0.js"></script>
+        <style type="text/css" media="screen">@import "themes/css/jqtouch.css"</style>
+        <style type="text/css" media="screen">@import "css/mobile.css"</style>
+       <script type='text/javascript' src='cordova-1.7.0.js'></script>
+        <script src="src/jquery.js"></script>
+        <script src="src/jqtouch.js" type="text/javascript" charset="utf-8"></script>
+        <script src="webservice.js"></script>
+   <script type="text/javascript">
+    jQuery(document).ready(function(){
+    	jQuery('.menu-anchor').click(function(e){
+    		jQuery('#jqt').toggleClass('menu-active');
+    		jQuery('menu').toggleClass('menu-active-ac');
+   	  	    e.preventDefault();
+   	  
+   	});
+// // 	    chamadas de links
+//    	  	$('a').each(function(e){
+// 	   	     $(this).click(function(){
+// 	   	      $('.menu-active').removeClass('menu-active');
+// 	   	      $('.menu-active-ac').removeClass('menu-active-ac');
+// 	   	      $('.current').removeClass('current');
+// 	   	      $($(this).attr('href')).addClass('current');
+// 	   	     });
+//    	    });
+////         	login do usuario
+   	$('#login_btn').click(function() {
+   	 	ws = new webService();
+  	 	login = $("input[name='login']").val();
+  	 	senha = $("input[name='senha']").val();
+  	 	
+  	 	ws.login({
+  	 		'login':login,
+  	 		'senha':senha
+  	 		});
+        });
+   });
+    //ver os pedidos
+   function visualizar(token,pedido){
+    	ws = new webService();
+    	ws.verPedido(token,pedido);
+    }
+    //visualizar a arvore 
+    function visualizarBinario(token,id)
+    {
+    	ws = new webService();
+    	ws.binariaView(token,id);
+    }
+
+       </script>
+</head> 
+<body class="supports3d portrait ">
+<div class='mask'></div>
+<div class="load">Carregando contéudo. Porfavor aguarde... <img src="load.gif" style=" margin-top: 13px;float: right;margin-right: 20px;
+"/></div>
+   <div id="jqt">
+   
+          <div id="login"  class="current">
+                <div class="toolbar">
+                    <h1>Login</h1>
+                </div>
+                <div class="scroll">
+                 <img alt="" src="layout/logo.png" class="logo">
+                <form id="ajax_post" action="ajax_post.php" method="POST" class="form">
+                   <ul class="borde-none">
+                        <li><input class="input-transparente" type="text" name="login" value="" placeholder="Usuário" /></li>
+                        <li><input class="input-transparente" type="password" name="senha" value="" placeholder="Senha" /></li>
+                    </ul>
+                     <a style="margin-top: 10px; margin-bottom: 10px; color:rgba(0,0,0,.9)" href="#" id="login_btn" class="btn_login">Entrar</a>
+                </form>
+                
+                </div>
+            </div>
+            
+          <div id="home" >
+                <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+	               <ul class="edgetoedge">
+	                    <li class="font-style-0 font-style font-color-r"><i class="icon-bonus"></i> PL será Pago a partir do quinto dia útil do mês</li>
+	                    <li>
+	               	                    
+	                        <table width="100%" height="55"  class="pull-rigth">
+		                    <tr class="font-style">
+		                        <td width="26" rowspan="2" align="left" class="font-color-l" >
+		                       <i class="icon-pontos">
+		                        </td>
+		                        
+	                            <td width="214" rowspan="2" align="left" class="font-color-l" ></td>
+	                                                                                    
+		                        <td height="22" class="font-color-l" >ESQ.  </td>                                                        
+	                          <td width="122" class="font-color-r">DIR.</td>
+		                     <tr class="font-style-2">
+		                        <td align="left" class="font-color-l" id="ptQEsquerda">      </td>                                                          
+	                           <td class="font-color-r" id="ptQDireita"></td>
+	                        
+	                        </tr>
+	                    </table>
+	                    
+	                    
+	                     </li>
+	                    <li>
+	                      <table width="100%" height="55"  class="pull-rigth">
+		                    <tr class="font-style">
+		                        <td width="26" rowspan="2" align="left" class="font-color-l" >
+		                        <i class="icon-membros"></i>
+		                        </td>
+		                        
+	                            <td width="214" rowspan="2" align="left" class="font-color-l" >
+	                            <table width="43%" border="0">
+	                              <tr class="font-style-1 font-color-r">
+	                                <td>TOTAL DE MENBROS</td>
+                                  </tr>
+                                </table>                                                                
+	                          <td height="22" class="font-color-l" >ESQ.                                                                
+	                        <td width="122" class="font-color-r">DIR.</tr>
+		                     <tr class="font-style-2">
+		                        <td align="left" class="font-color-l" id="mbQEsquerda" >   </td>                                                             
+	                        <td class="font-color-r" id="mbQDireita" ></tr>
+	                    </table>
+	                    </li>
+	                    <li>
+	                    
+	                        <table width="100%" height="55"  class="pull-rigth">
+		                    <tr class="font-style">
+		                        <td width="26" rowspan="2" align="left" class="font-color-l" >
+		                       <i class="icon-metas"></i>
+		                        </td>
+		                        
+	                            <td width="214" rowspan="2" align="left" class="font-color-l" ><table width="43%" border="0">
+	                              <tr class="font-style-1 font-color-r">
+	                                <td>META<br>
+ATINGIDA</td>
+                                  </tr>
+                                </table></td>
+	                                                                                    
+		                        <td height="22" class="font-color-l" >RUBI.  </td>                                                        
+	                          <td width="122" class="font-color-r"></td>
+		                     <tr class="font-style-2">
+		                        <td align="left" class="font-color-l" id="mtAtingida" >   </td>                                                          
+	                           <td class="font-color-r"></td>
+	                        
+	                        </tr>
+	                    </table>
+	                    
+	                    </li>
+	                      <li>
+	                    
+	                        <table width="100%" height="55"  class="pull-rigth">
+		                    <tr class="font-style">
+		                        <td width="26" rowspan="2" align="left" class="font-color-l" >
+		                       <i class="icon-saldo"></i>
+		                        </td>
+		                        
+	                            <td width="99" rowspan="2" align="left" class="font-color-l" ><table width="43%" border="0">
+	                              <tr class="font-style-1 font-color-r">
+	                                <td>SALDO</td>
+                                  </tr>
+                                </table></td>
+	                                                                                    
+		                        <td width="184" height="22" class="font-color-l" >ATUAL</td>                                                        
+	                          <td width="187" class="font-color-r">RECEBIDO</td>
+		                     <tr class="font-style-3">
+		                        <td align="left" class="font-color-l" id="sdAtual" >R$ 10.000,00</td>                                                          
+	                           <td class="font-color-r" id="sdRecebido" >R$ 25.000,00</td>
+	                        
+	                        </tr>
+	                    </table>
+	                    
+	                    </li>
+	                </ul>            
+               </div>
+            </div>
+<!--             fim de home -->
+            <div id="pedidos">
+               <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+				  <ul class="edgetoedge">
+				  <li id="pd-content">
+				 
+				  </li>
+				  </ul>
+				<a href="#home">voltar</a>
+				</div>
+				
+            </div>
+<!--             fim do pedidos -->
+			<div id="verpedido">
+			 <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+				  <ul class="edgetoedge">
+				  <li id="vpd-content">
+<!-- 				 contedudo carregado dinamicamente nessa li -->
+				  </li>
+				  </ul>
+				<a href="#pedidos">voltar</a>
+				</div>
+			</div>
+			
+<!-- 	 vim ver os Pedidos -->
+		<div id="empreededores">
+			 <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+				  <ul class="edgetoedge">
+				  <li>
+<!-- 				 contedudo carregado dinamicamente nessa li -->
+					<iframe id="empre-content" width="100%" height="100%" style="border: 0px solid;" src=""></iframe>
+				  </li>
+				  </ul>
+				</div>
+			</div>
+			
+			<!-- 	 financeiro -->
+		<div id="transacoes">
+			 <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+				  <ul class="edgetoedge">
+				  <li>
+				 <!-- 				 contedudo carregado dinamicamente nessa li -->
+
+<table width="100%" class="table table-bordered table-hover font-style-0">
+<thead>
+
+  <tr>
+    <TH colspan="4" style="line-height: 30px">
+    <form id="form1" name="form1" >
+	  De: <input class="input" type="text"  class="mdata hasDatepicker" value="03/01/2013" name="de" id="dp1388774101957">
+	  Até: <input class="input" type="text"  class="mdata hasDatepicker" value="03/01/2014" name="ate" id="dp1388774101958"><br/>
+	 <a href="#buscar" class="btn" style="color:#999">FILTRAR</a>
+		</form>
+    </TH>
+  </tr>
+
+  <tr>
+    <th>N°</th>
+    <th>Data</th>
+    <th>Descrição</th>
+    <th>Valor</th>
+  </tr>
+  
+ </thead>
+ <tbody id='trans-content'>
+ 
+ </tbody>
+</table>
+				 
+				  </li>
+				  </ul>
+				</div>
+			</div>
+			
+				<!--  fim o transações -->
+		<div id="resumoBonus">
+			 <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+				  <ul class="edgetoedge">
+				  <li>
+								 <!-- 				 contedudo carregado dinamicamente nessa li -->
+				
+				<table width="100%" class="table table-bordered font-style-0">
+				  <tr>
+				    <TH colspan="4" style="line-height: 30px">
+				    <form id="form1" name="form1" >
+					  De: <input class="input" type="text"  class="mdata hasDatepicker" value="03/01/2013" name="resumo_de" id="dp1388774101957">
+					  Até: <input class="input" type="text"  class="mdata hasDatepicker" value="03/01/2014" name="resumo_ate" id="dp1388774101958"><br/>
+					 <a href="#buscarResumoBonus" class="btn" style="color:#999">FILTRAR</a>
+						</form>
+				    </TH>
+				  </tr>
+				</table>
+					<table id="resumoBonuscontente" width="100%" class="table table-bordered table-hover font-style-0">
+					</table>
+				
+					
+				  </li>
+				  </ul>
+				</div>
+			</div>
+			
+					<!--  fim do resumo bônus -->
+		<div id="relatorioBonus">
+			 <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+				  <ul class="edgetoedge">
+				  <li>
+								 <!-- 				 contedudo carregado dinamicamente nessa li -->
+				
+				<table width="100%" class="table table-bordered font-style-0">
+				  <tr>
+				    <TH colspan="4" style="line-height: 30px">
+				    <form id="form1" name="form1" >
+					  De: <input class="input" type="text"  class="mdata hasDatepicker" value="03/01/2013" name="relatorio_de" id="dp1388774101957">
+					  Até: <input class="input" type="text"  class="mdata hasDatepicker" value="03/01/2014" name="relatorio_ate" id="dp1388774101958"><br/>
+					 <a href="#buscarRelatorioBonus" class="btn" style="color:#999">FILTRAR</a>
+						</form>
+				    </TH>
+				  </tr>
+				</table>
+					<table id="totalBonusRecebido" width="100%" class="table table-bordered table-hover font-style-0">
+					</table>
+					<table id="relatorioBonuscontent" width="100%" class="table table-bordered table-hover font-style-0">
+					</table>
+				
+					
+				  </li>
+				  </ul>
+				</div>
+			</div>
+			
+<!--    fim do relatório bônus -->
+		<div id="noticias">
+			 <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+				  <ul class="edgetoedge">
+				  <li >
+								 <!-- 				 contedudo carregado dinamicamente nessa li -->
+							<table width="100%" border="0" class='table table-bordered font-style-0'>
+							  <tr>
+							    <td style="font-size: 20px;">Notícias</td>
+							  </tr>
+							  <tr>
+							    <td id="noticias-content">
+						
+							    </td>
+							  </tr>
+							</table>
+				  </li>
+				  
+				  </ul>
+				</div>
+			</div>
+<!-- 			fim da noticias -->
+
+		<div id="promocao">
+			 <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+				  <ul class="edgetoedge">
+				  <li >
+								 <!-- 				 contedudo carregado dinamicamente nessa li -->
+							<table width="100%" border="0" class='table table-bordered font-style-0'>
+							  <tr>
+							    <td style="font-size: 20px;">Promoção</td>
+							  </tr>
+							  <tr>
+							    <td id="promocao-content">
+						
+							    </td>
+							  </tr>
+							</table>
+				  </li>
+				  
+				  </ul>
+				</div>
+			</div>
+<!-- 			fim da promoção -->
+
+		<div id="notificacao">
+			 <div class="toolbar">
+                   <div class='logo-int'></div>
+                    <span class="menu-anchor"></span>
+				</div>
+				<div class="scroll">
+				  <ul class="edgetoedge">
+				  <li >
+								 <!-- 				 contedudo carregado dinamicamente nessa li -->
+							<table width="100%" border="0" class='table table-bordered font-style-0'>
+							  <tr>
+							    <td style="font-size: 20px;">Notifição</td>
+							  </tr>
+							  <tr>
+							    <td id="notificacao-content">
+						
+							    </td>
+							  </tr>
+							</table>
+				  </li>
+				  
+				  </ul>
+				</div>
+			</div>
+<!-- 			fim da fim da notificao -->
+           <div class="proxima" data-pagina="1"></div>
+        </div>
+    <!-- menu mobile  -->
+<menu>
+<ul>
+ <li><br><br></li>
+ <li>
+ <span style="margin-left: 133px;">MENU</span>
+<!-- <img style="margin-left: 10px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYwAAAAcCAYAAAByKIi9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMTIvMjcvMTMi7f31AAAChUlEQVR4nO3dP0/jMBzG8YfTSdmarZ3w5k50C1O7wdZXACNvipGt74AJspWp2Zop3syEt7BluhtOjRqaQqQrgobvR4rUOpblqY9+/qOePDw8/BEAAB/49dUTAAAcBwIDANAJgQEA6ITAAAB0QmAAADohMAAAnRAYAIBOfn/1BIBDWiwWen5+VpIkuri4aLy7u7tTCEHT6VSz2azRv83V1ZWMMVosFirLUjc3N4qiqH6/XC7lvdf19XU9ljGmHntfP+BYERjonSiKVBRFIzCqqlIIofGDv3F2dqbJZLLTPhqN6s+vr69arVY7YQD8JAQGesdaqzzPVZal4jiWJBVFocFgUH/fFsexjDHvjnl6eqqnpyeNx2MNh8NPmTfw3bGHgd6J41iDwUDOubrNe/9hKLzHGCNrrR4fHw8xReAoUWGgl8bjsbz3SpJEkuSc03w+12q12um7Xq/lvW+0jUajnT2Q+Xyu29tbZVlWjwv8JFQY6CVjTF1heO9VVZWsta19N0tS20/bslMURZrNZloul6qq6lPnD3xHVBjopU04OOfkvd8bFpJaTzbtkySJiqLQ/f09exn4cagw0FvWWnnv/3v/4q3Ly8s6iLbFcawQwk7/EELrZjtwbAgM9JYxRkVRKITwboVRlmUdLNtPWZat/YfDoabT6c79jclkIuecsiyr27Isk3Ou9dgucGxYkkJvWWuVpune47QbeZ4rz/Od9u0Lfm+dn59rvV432owxSpJEaZoqTdPGOIescICvcsI/7gGHVVWVXl5eJP07bdV2WRA4RlQYwIFFUURFgV5iDwMA0AmBAQDohMAAAHRCYAAAOiEwAACdEBgAgE4IDABAJwQGAKCTv96T2TVGTyNrAAAAAElFTkSuQmCC"></li> -->
+ <li><i class="icon-pedido"></i><a href="#pedidos">Pedidos</a></li>
+ <li><i class="icon-empreendedor"></i><a href="#empreededores">Empreendedores</a></li>
+ <li><i class="icon-financeiro"></i><a href="#">Financeiro</a>
+	 <ul>
+	 	<li><a href="#transacoes">Histórico Transações</a></li>
+	 	<li><a href="#resumoBonus">Resumo Bônus</a></li>
+	    <li><a href="#relatorioBonus">Ralatório de Bônus</a></li>
+	 </ul>
+ </li>
+ <li><i class="icon-noticias"></i><a href="#noticias">Notícias</a></li>
+ <li><i class="icon-promocao"></i><a href="#promocao">Promoção</a></li>
+  <li><i class="icon-notificacao"></i><a href="#notificacao">Notificações</a></li>
+   <li><i class="icon-sair"></i><a href="#login">Sair</a></li>
+</ul>
+</menu>
+<!-- fim do menu mobile -->
+      
+</body>
+</html>
