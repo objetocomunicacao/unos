@@ -22,13 +22,13 @@ function check_network() {
     var networkState = navigator.network.connection.type;
 
     var states = {};
-    states[Connection.UNKNOWN]  = 'Você não está conectado a internet';
-    states[Connection.NONE]     = 'Você não está conectado a internet';
-   if(states[networkState] !=undefined){
-	 navigator.notification.vibrate(100);
-     alert(states[networkState]);
-        return true;
-   }else{
-	   return false;
-   }
+    states[Connection.UNKNOWN]  = 'Unknown connection';
+    states[Connection.ETHERNET] = 'Ethernet connection';
+    states[Connection.WIFI]     = 'WiFi connection';
+    states[Connection.CELL_2G]  = 'Cell 2G connection';
+    states[Connection.CELL_3G]  = 'Cell 3G connection';
+    states[Connection.CELL_4G]  = 'Cell 4G connection';
+    states[Connection.NONE]     = 'No network connection';
+
+    $('#connection').html(states[networkState]);
 }

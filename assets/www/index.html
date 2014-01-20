@@ -1,477 +1,349 @@
-<html> 
-<head> 
-<title>Unos Empreendedores</title> 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="viewport" content="width=device-width,user-scalable=no" />
+<!-- Copyright (c) 2012 Mobile Developer Solutions -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-type" name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
+    <title>MDS PhoneGap API Demo with jQuery Mobile</title>
+
+ 	<link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.1.0.min.css" />
+	<link rel="stylesheet" href="index.css" /> 
+
+    <script src="jquery.mobile/jquery-1.7.2.min"></script>
+	<script src="jquery.mobile/jquery.mobile-1.1.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
+	<script type="text/javascript" charset="utf-8" src="index.js"></script>
   
-
- 	
-<link href="css/jqtouch.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
-
-	<link href="css/mobipick.css" rel="stylesheet" type="text/css" />
-	
-	<script type="text/javascript" src="external/modernizr.custom.min.js"></script>
-	<script type="text/javascript" src="external/xdate.js"></script>
-	<script type="text/javascript" src="external/xdate.i18n.js"></script>
-
-<script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
-<script src="js/jquery.js"></script>
-<script src="js/jqtouch.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="external/jquery.mobile-1.3.0.min.js"></script>
-
-<script type="text/javascript" src="js/mobipick.js"></script>
-<link rel="stylesheet" href="external/jquery.mobile-1.3.0.min.css" />
-
- <script src="js/webservice.js"></script>
-   <script type="text/javascript">
-		    jQuery(document).ready(function(){
-		    	jQuery('.menu-anchor').click(function(e){
-		    		jQuery('#jqt').toggleClass('menu-active');
-		    		jQuery('menu').toggleClass('menu-active-ac');
-		   	  	    e.preventDefault();
-		   	  	   
-		   	});
-		    	jQuery('.financeiro').click(function(e){
-		    		jQuery('.submenu').toggleClass('submenu-ativo');
-		   	  	    e.preventDefault();
-		   	  	   
-		   	});
-		    	
-	
-    	
-			//login do usuario
-		   	$('#login_btn').click(function() {
-		   	 	ws = new webService();
-		  	 	login = $("input[name='login']").val();
-		  	 	senha = $("input[name='senha']").val();
-		  	 	
-		  	 	ws.login({
-		  	 		'login':login,
-		  	 		'senha':senha
-		  	 		});
-		  	 	
-			      set_data_init();
-			      initialize(); 
-			    
-		        });
-			
-			//calendario com jQuery
-		   	$(function(){
-			   	 $(".calendario").each(function(){
-			   		$(this).mobipick({
-						dateFormat: "dd/MM/yyyy",
-						locale: "pt-br"
-						
-					}); 
-			   	 });
-		   	});
-			
-		   });
-	    //ver os pedidos
-	   function visualizar(token,pedido){
-	    	ws = new webService();
-	    	ws.verPedido(token,pedido);
-	    }
-	    //visualizar a arvore 
-	    function visualizarBinario(token,id)
-	    {
-	    	ws = new webService();
-	    	ws.binariaView(token,id);
-	    }
-	    
-       function initialize(){
-    	   ws = new webService();
-    	   ws.init();
-       }
-       
-       function set_data_init()
-       {
-    	   hoje = new Date();
-  	     NomeMes = new Array(12)
-  	    NomeMes[0] = "01";
-  	    NomeMes[1] = "02";
-  	    NomeMes[2] = "03";
-  	    NomeMes[3] = "04";
-  	    NomeMes[4] = "05";
-  	    NomeMes[5] = "06";
-  	    NomeMes[6] = "07";
-  	    NomeMes[7] = "08";
-  	    NomeMes[8] = "09";
-  	    NomeMes[9] = "10";
-  	    NomeMes[10] = "11";
-  	    NomeMes[11] = "12";
-  	    $('.de').val('01/'+NomeMes[hoje.getMonth()]+"/"+hoje.getFullYear());
-  	    $('.ate').val(hoje.getDate()+'/'+NomeMes[hoje.getMonth()]+"/"+hoje.getFullYear());
-       }
-       </script>
-</head> 
-<body class="supports3d portrait " onload="initialize();" >
-<div class='mask'></div>
-<div class="load"><img src="img/load.gif" /></div>
-<div class="loadError">
-<div class='exc-content'></div>
-<div class='btn-exception'>ok</div>
-</div>
-   <div id="jqt">
-   
-          <div id="login" class="current"  >
-                <div class="toolbar">
-                    <h1>Login</h1>
-                </div>
-                <div class="scroll">
-                 <img alt="" src="img/logo.png" class="logo">
-                <form id="ajax_post" action="ajax_post.php" method="POST" class="form">
-                <input type="hidden" name="device_nane" id="device_nane" value=""/>
-                <input type="hidden" name="device_modelo" id="device_modelo" value=""/>
-                <input type="hidden" name="device_uuid" id="device_uuid" value=""/>
-					<ul class="borde-none inicial-login">
-						<li><input class="input-transparente" type="text"
-							name="login" placeholder="Usuário" value="" /></li>
-						<li><input class="input-transparente" type="password"
-							name="senha" placeholder="Senha" value="" /></li>
-					</ul>
-				
-						<br/><br/>
-					<br/><br/>
-					
-					
-					<a style="margin-top: 10px; margin-bottom: 10px; color:rgba(0,0,0,.9) " href="#" id="login_btn" class="btn_login">Entrar</a>
-                </form>
-                
-                </div>
-            </div>
-            
-          <div id="home"  class="current">
-                <div class="toolbar">
-                  <a href="#home"> <div class='logo-int'><div id="title-logo">Unos Empreendedores</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-	               <ul class="edgetoedge">
-		               <li>
-		               <table width="100%" border="0" class="table table-bordered">
-						  <tr>
-						    <td width="3%">
-						    <i class="icon-bonus"></i>
-						    </td>
-						    <td colspan="3"> PL será Pago a partir do quinto dia útil do mês</td>
-						  </tr>
-						  <tr>
-						    <td>
-						    <i class="icon-pontos"></i>
-						    </td>
-						    <td width="24%">PONTOS</td>
-						    <td width="35%" class="font-color-l" >QSD<BR><SPAN id="ptQEsquerda"></SPAN></td>
-						    <td width="35%" class="font-color-r" >DIR<BR><SPAN id="ptQDireita"></SPAN> </td>
-						  </tr>
-						  <tr>
-						    <td><i class="icon-membros"></i></td>
-						    <td>TOTAL MEMBROS</td>
-						    <td class="font-color-l">QSD<BR><SPAN  id="mbQEsquerda"></SPAN></td>
-						    <td class="font-color-r" >DIR<BR><SPAN id="mbQDireita"></SPAN></td>
-						  </tr>
-						  <tr>
-						    <td><i class="icon-metas"></i></td>
-						    <td>META ATIGIDA</td>
-						    <td class="font-color-l">RUIB<BR><SPAN  id="mtAtingida"></SPAN></td>
-						    <td></td>
-						  </tr>
-						  <tr>
-						    <td><i class="icon-saldo"></i></td>
-						    <td>SALDO</td>
-						    <td class="font-color-l">ATUAL<BR><span  id="sdAtual"></span> </td>
-						    <td class="font-color-r">RECEBIDO<BR><span  id="sdRecebido"></span> </td>
-						  </tr>
-						</table>
-		               </li>
-	                </ul>            
-               </div>
-            </div>
-<!--             fim de home -->
-            <div id="pedidos">
-               <div class="toolbar">
-                     <a href="#home"> <div class='logo-int'><div id="title-logo">Pedidos</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-				  <ul class="edgetoedge">
-				  <li id="pd-content">
-				 
-				  </li>
-				  </ul>
-				</div>
-				
-            </div>
-<!--             fim do pedidos -->
-			<div id="verpedido">
-			 <div class="toolbar">
-                     <a href="#home"> <div class='logo-int'><div id="title-logo">Pedidos</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-				  <ul class="edgetoedge">
-				  <li >
-<!-- 				 contedudo carregado dinamicamente nessa li -->
-	                <a href="#pedidos" class="btn-voltar" style="text-shadow: #3c3d3e 0 0px 0;"> < Voltar</a>
-					<div id="vpd-content"></div>
-				
-				  </li>
-				  </ul>
-				
-				</div>
-			</div>
-			
-<!-- 	 vim ver os Pedidos -->
-		<div id="empreededores">
-			 <div class="toolbar">
-                     <a href="#home"> <div class='logo-int'><div id="title-logo">Empreendedores</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-				  <ul class="edgetoedge">
-				  <li>
-<!-- 				 contedudo carregado dinamicamente nessa li -->
-					<iframe id="empre-content" width="100%" height="100%" style="border: 0px solid;" src=""></iframe>
-				  </li>
-				  </ul>
-				</div>
-			</div>
-			
-			<!-- 	 financeiro -->
-		<div id="transacoes"    >
-			 <div class="toolbar">
-                     <a href="#home"> <div class='logo-int'><div id="title-logo">Histórico Transações</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-				  <ul class="edgetoedge">
-				  <li>
-				 <!-- 				 contedudo carregado dinamicamente nessa li -->
-
-<table width="100%" class="table table-bordered table-hover font-style-0">
-<thead>
-
-  <tr>
-    <TH colspan="4" style="line-height: 30px">
-    <form id="form1" name="form1" >
-	  De: <input type="text"  class="mdata  input calendario de" value="" name="de" ><br/>
-	  Até: <input type="text"  class="mdata  input calendario ate" value="" name="ate" ><br/>
-	  <br/>
-
-	 <a href="#buscar" class="btn" style="color:#999">FILTRAR</a>
-		</form>
-    </TH>
-  </tr>
-
-  <tr>
-    <th>N°</th>
-    <th>Data</th>
-    <th>Descrição</th>
-    <th>Valor</th>
-  </tr>
+	<!-- CDN Respositories: For production, replace lines above with these uncommented minified versions -->
+	<!-- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />-->
+	<!-- <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>-->
+	<!-- <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>-->
+	</head>
   
- </thead>
- <tbody id='trans-content'>
- 
- </tbody>
-</table>
-				 
-				  </li>
-				  </ul>
-				</div>
-			</div>
-			
-				<!--  fim o transações -->
-		<div id="resumoBonus"  >
-			 <div class="toolbar">
-                     <a href="#home"> <div class='logo-int'><div id="title-logo">Resumo Bônus</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-				  <ul class="edgetoedge">
-				  <li>
-								 <!-- 				 contedudo carregado dinamicamente nessa li -->
-				
-				<table width="100%" class="table table-bordered font-style-0">
-				  <tr>
-				    <TH colspan="4" style="line-height: 30px">
-				    <form id="form1" name="form1" >
-					  De: <input class="input calendario de" type="text" value="" name="resumo_de" />
-					   <br/>
-					   
-					  Até: <input class="input calendario ate" type="text" value="" name="resumo_ate" /><br/>
-					  <br/>
-					 <a href="#buscarResumoBonus" class="btn" style="color:#999">FILTRAR</a>
-						</form>
-				    </TH>
-				  </tr>
-				</table>
-					<table id="resumoBonuscontente" width="100%" class="table table-bordered table-hover font-style-0">
-					</table>
-				
-					
-				  </li>
-				  </ul>
-				</div>
-			</div>
-			
-					<!--  fim do resumo bônus -->
-		<div id="relatorioBonus"  >
-			 <div class="toolbar">
-                     <a href="#home"> <div class='logo-int'><div id="title-logo">Ralatório de Bônus</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-				  <ul class="edgetoedge">
-				  <li>
-								 <!-- 				 contedudo carregado dinamicamente nessa li -->
-				
-				<table width="100%" class="table table-bordered font-style-0">
-				  <tr>
-				    <TH colspan="4" style="line-height: 30px">
-				    <form id="form1" name="form1" >
-					  De: <input class="input calendario de" type="text"  value="" name="relatorio_de" /><br/>
-					   
-					  Até: <input class="input calendario ate"  type="text"   value="" name="relatorio_ate" /><br/>
-					   <br/>
-					   
-					 <a href="#buscarRelatorioBonus" class="btn" style="color:#999">FILTRAR</a>
-						</form>
-				    </TH>
-				  </tr>
-				</table>
-					<table id="totalBonusRecebido" width="100%" class="table table-bordered table-hover font-style-0">
-					</table>
-					<table id="relatorioBonuscontent" width="100%" class="table table-bordered table-hover font-style-0">
-					</table>
-				
-					
-				  </li>
-				  </ul>
-				</div>
-			</div>
-			
-<!--    fim do relatório bônus -->
-		<div id="noticias">
-			 <div class="toolbar">
-                     <a href="#home"> <div class='logo-int'><div id="title-logo">Notícias</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-				  <ul class="edgetoedge">
-				  <li >
-						 <!-- 				 contedudo carregado dinamicamente nessa li -->
-							<table width="100%" border="0" class='table table-bordered font-style-0'>
-							  <tr>
-							    <td style="font-size: 20px;">Notícias</td>
-							  </tr>
-							  <tr>
-							    <td id="noticias-content">
-						
-							    </td>
-							  </tr>
-							</table>
-				  </li>
-				  
-				  </ul>
-				</div>
-			</div>
-<!-- 			fim da noticias -->
+  <body onload="init();">
+	<div data-role="page" id="page-home" class="type-interior" data-theme="b">
 
-		<div id="promocao">
-			 <div class="toolbar">
-                     <a href="#home"> <div class='logo-int'><div id="title-logo">Promoção</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-				  <ul class="edgetoedge">
-				  <li >
-								 <!-- 				 contedudo carregado dinamicamente nessa li -->
-							<table width="100%" border="0" class='table table-bordered font-style-0'>
-							  <tr>
-							    <td style="font-size: 20px;">Promoção</td>
-							  </tr>
-							  <tr>
-							    <td id="promocao-content">
-						
-							    </td>
-							  </tr>
-							</table>
-				  </li>
-				  
-				  </ul>
-				</div>
-			</div>
-<!-- 			fim da promoção -->
+	<div data-role="header" data-theme="b">
+		<h1>MDS PhoneGap API Demo</h1>
+ 		<a href="#" data-icon="home" data-iconpos="notext" id="intro" class="ui-btn-right">intro</a>
+	</div>
 
-		<div id="notificacao">
-			 <div class="toolbar">
-                     <a href="#home"> <div class='logo-int'><div id="title-logo">Notifição</div></div></a>
-                    <span class="menu-anchor"></span>
-				</div>
-				<div class="scroll">
-				  <ul class="edgetoedge">
-				  <li >
-								 <!-- 				 contedudo carregado dinamicamente nessa li -->
-							<table width="100%" border="0" class='table table-bordered font-style-0'>
-							  <tr>
-							    <td style="font-size: 20px;">Notifição</td>
-							  </tr>
-							  <tr>
-							    <td id="notificacao-content">
-						
-							    </td>
-							  </tr>
-							</table>
-				  </li>
-				  
-				  </ul>
+	<div data-role="content" data-theme="c">			
+		<div class="content-secondary">
+			<div data-role="collapsible" data-collapsed="true" data-theme="b" data-content-theme="b">
+				<h3>PhoneGap API</h3>
+
+				<ul data-role="listview" data-theme="b" data-dividertheme="b">
+					<li id="listdivider" data-role="list-divider">PhoneGap API</li>
+					<li><a id="click-accelerometer">Accelerometer</a></li>
+					<li><a id="click-camera">Camera</a></li>
+					<li><a id="click-capture">Capture</a></li>
+					<li><a id="click-compass">Compass</a></li>
+ 					<li><a id="click-connection">Connection</a></li>
+					<li><a id="click-contacts">Contacts</a></li>
+					<li><a id="click-device">Device</a></li>
+					<li><a id="click-events">Events</a></li>
+					<li><a id="click-file">File</a></li>
+					<li><a id="click-geolocation">Geolocation</a></li>
+					<li><a id="click-media">Media</a></li>
+					<li><a id="click-notification">Notification</a></li>
+					<li><a id="click-storage">Storage</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="content-primary">
+		    <div class="api-div" id="api-intro">
+		         <h2>PhoneGap</h2>
+				<blockquote>
+  					<p>An HTML5 app platform that allows you to author native applications with web technologies and get access to APIs and app stores.</p>
+				</blockquote>
+
+				<div>
+				<h4>Select a <strong>PhoneGap API </strong>to see it demonstrated.</h4>
+				<h4 class="help">See <strong>assets/www/apis/</strong> for JavaScript implementations of each API.</h4>
+				
+				<p id="copyright">&copy; 2012 Mobile Developer Solutions</p>
+				</div>		    					
+			</div>
+
+		    <div class="api-div" id="api-accelerometer">
+		         <h2>Accelerometer</h2>
+				<blockquote>
+  					<p>Captures device motion in the x, y, and z direction.</p>
+				</blockquote>
+				<h4 class="help"><b>Toggle</b> to stop/start
+				accelerometer watch.<br/><b>Get Current</b> for one-time accelerometer reading.</h4>
+				<div class="ui-grid-b">
+     	 				<div class="ui-block-a">X: <b id="x">&nbsp;</b></div>
+     	 				<div class="ui-block-b">Y: <b id="y">&nbsp;</b></div> 
+     	 				<div class="ui-block-c">Z: <b id="z">&nbsp;</b></div>
+    				</div>
+    				<div>Timestamp: <b id="accel_timestamp">0</b></div>   			    
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><div data-role="button" onclick="toggleAccel();">Toggle</div></div>
+					<div class="ui-block-b"><div data-role="button" onclick="getAccel();">Get Current</div></div>	   
+				</div>				
+			</div>
+
+		    <div class="api-div" id="api-camera">
+                <h2>Camera</h2>
+				<blockquote>
+  					<p>The <code>camera</code> object provides access to the device's default camera application.</p>
+				</blockquote>
+				<h4 class="help"><b>Take a Picture</b> using device camera.<br/>
+				<b>Select</b> to get picture from album or library.</h4>
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><div data-role="button" onclick="take_pic();">Take a Picture</div></div>
+					<div class="ui-block-b"><div data-role="button" onclick="album_pic();">Select</div></div>
+				</div>				
+      			<img id="cameraImage" src="" />
+			</div>
+
+		    <div class="api-div" id="api-capture">
+				<h2>Capture</h2>
+				<blockquote>
+					<p>Provides access to the audio, image, and video capture capabilities of the device.</p>
+				</blockquote>
+				<div class="ui-grid-b">
+					<div class="ui-block-a"><div data-role="button" onclick="captureAudio();">Audio</div></div>
+					<div class="ui-block-b"><div data-role="button" onclick="captureImage();">Image</div></div>
+					<div class="ui-block-c"><div data-role="button" onclick="captureVideo();">Video</div></div>
+				</div>				
+				<div>Capture Result: <span id="capture-result"></span><br/>
+				<span id="format-data"></span><br/>
 				</div>
 			</div>
-<!-- 			fim da fim da notificao -->
-           <div class="proxima" data-pagina="1"></div>
-        </div>
-    <!-- menu mobile  -->
-<menu id="menu">
-<ul>
- <li><br><br></li>
- <li>
- <span style="margin-left: 133px;">MENU</span>
-<!-- <img style="margin-left: 10px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYwAAAAcCAYAAAByKIi9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMTIvMjcvMTMi7f31AAAChUlEQVR4nO3dP0/jMBzG8YfTSdmarZ3w5k50C1O7wdZXACNvipGt74AJspWp2Zop3syEt7BluhtOjRqaQqQrgobvR4rUOpblqY9+/qOePDw8/BEAAB/49dUTAAAcBwIDANAJgQEA6ITAAAB0QmAAADohMAAAnRAYAIBOfn/1BIBDWiwWen5+VpIkuri4aLy7u7tTCEHT6VSz2azRv83V1ZWMMVosFirLUjc3N4qiqH6/XC7lvdf19XU9ljGmHntfP+BYERjonSiKVBRFIzCqqlIIofGDv3F2dqbJZLLTPhqN6s+vr69arVY7YQD8JAQGesdaqzzPVZal4jiWJBVFocFgUH/fFsexjDHvjnl6eqqnpyeNx2MNh8NPmTfw3bGHgd6J41iDwUDOubrNe/9hKLzHGCNrrR4fHw8xReAoUWGgl8bjsbz3SpJEkuSc03w+12q12um7Xq/lvW+0jUajnT2Q+Xyu29tbZVlWjwv8JFQY6CVjTF1heO9VVZWsta19N0tS20/bslMURZrNZloul6qq6lPnD3xHVBjopU04OOfkvd8bFpJaTzbtkySJiqLQ/f09exn4cagw0FvWWnnv/3v/4q3Ly8s6iLbFcawQwk7/EELrZjtwbAgM9JYxRkVRKITwboVRlmUdLNtPWZat/YfDoabT6c79jclkIuecsiyr27Isk3Ou9dgucGxYkkJvWWuVpune47QbeZ4rz/Od9u0Lfm+dn59rvV432owxSpJEaZoqTdPGOIescICvcsI/7gGHVVWVXl5eJP07bdV2WRA4RlQYwIFFUURFgV5iDwMA0AmBAQDohMAAAHRCYAAAOiEwAACdEBgAgE4IDABAJwQGAKCTv96T2TVGTyNrAAAAAElFTkSuQmCC"></li> -->
- <li><i class="icon-pedido"></i><a href="#pedidos">Pedidos</a></li>
- <li><i class="icon-empreendedor"></i><a href="#empreededores">Empreendedores</a></li>
- <li><i class="icon-financeiro"></i><a class="financeiro" href="#">Financeiro</a>
-	 <ul class="submenu">
-	 	<li><a href="#transacoes">Histórico Transações</a></li>
-	 	<li><a href="#resumoBonus">Resumo Bônus</a></li>
-	    <li><a href="#relatorioBonus">Ralatório de Bônus</a></li>
-	 </ul>
- </li>
- <li><i class="icon-noticias"></i><a href="#noticias"  >Notícias</a></li>
- <li><i class="icon-promocao"></i><a href="#promocao">Promoção</a></li>
-  <li><i class="icon-notificacao"></i><a href="#notificacao">Notificações</a></li>
-   <li><i class="icon-sair"></i><a href="#login">Sair</a></li>
-</ul>
-</menu>
-<!-- fim do menu mobile -->
-    <script type="text/javascript" charset="utf-8" src="apis/accelerometer.js"></script>
- 	<script type="text/javascript" charset="utf-8" src="apis/camera.js"></script>
- 	<script type="text/javascript" charset="utf-8" src="apis/capture.js"></script>
+
+		    <div class="api-div" id="api-compass">
+				<h2>Compass</h2>
+				<blockquote>
+					<p>Obtains the direction that the device is pointing.</p>
+				</blockquote>
+				<h4 class="help"><b>Toggle</b> to stop/start
+				compass watch. <br/><b>Get Current</b> for one-time compass reading.</h4>
+
+				<!-- <h4 class="help"><code>Toggle Compass</code> to stop/start
+				compass watch. <br/><code>Get Current</code> for one-time compass reading.</h4> -->
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><div data-role="button" onclick="toggleCompass();">Toggle</div></div>
+					<div class="ui-block-b"><div data-role="button" onclick="getCurrentHeading();">Get Current</div></div>
+				</div>
+				<div>
+     	 		Compass Heading: <b id="heading"></b>
+     	 		</div>
+    		</div>
+
+		    <div class="api-div" id="api-connection">
+				<h2>Connection</h2>
+				<blockquote>
+  					<p>The <code>connection</code> object gives access to the device's cellular and wifi connection information.</p>
+				</blockquote>
+   				<div data-role="button" onclick="check_network();">Check Connection</div>
+   				<div>Connection: <b id="connection"></b></div>    
+			</div>
+
+		    <div class="api-div" id="api-contacts">
+				<h2>Contacts</h2>
+				<blockquote>
+  					<p>The <code>contacts</code> object provides access to the device contacts database.</p>
+				</blockquote>
+   				<div data-role="button" onclick="get_contacts();">Check Contacts</div>
+   				<div id="contacts-output"></div>
+			</div>
+
+		    <div class="api-div" id="api-device">
+				<h2>Device</h2>
+				<blockquote>
+					<p>The <code>device</code> object describes the device's hardware and software.</p>
+				</blockquote>
+				<h4><strong>Important</strong> Access <code>device</code> object only after <code>deviceready</code> event.</h4>
+      			<table id="deviceinfo">
+  					<tr>
+   					 	<th>Device</th>
+   					 	<th class="alt">Value</th>
+  					</tr>
+  					<tr>
+    					<td>Name</td>
+    					<td class="alt"><strong id="name">&nbsp;</strong></td>
+  					</tr>
+  					<tr>
+    					<td>Platform</td>
+   					 	<td class="alt"><strong id="platform">&nbsp;</strong></td>
+  					</tr>
+  					<tr>
+    					<td>PhoneGap Version</td>
+   					 	<td class="alt"><strong id="pgversion">&nbsp;</strong></td>
+  					</tr>
+  					<tr>
+    					<td>UUID</td>
+   					 	<td class="alt"><strong id="uuid">&nbsp;</strong></td>
+  					</tr>
+  					<tr>
+    					<td>OS Version</td>
+   					 	<td class="alt"><strong id="version">&nbsp;</strong></td>
+  					</tr>
+  					<tr>
+   					 	<th>Screen</th>
+   					 	<th class="alt">Value</th>
+  					</tr>
+  					<tr>
+    					<td>Width</td>
+    					<td class="alt"><strong id="width">&nbsp;</strong></td>
+  					</tr>
+   					<tr>
+    					<td>Height</td>
+    					<td class="alt"><strong id="height">&nbsp;</strong></td>
+  					</tr>
+   					<tr>
+    					<td>Available Width</td>
+    					<td class="alt"><strong id="availwidth">&nbsp;</strong></td>
+  					</tr>
+   					<tr>
+    					<td>Available Height</td>
+    					<td class="alt"><strong id="availheight">&nbsp;</strong></td>
+  					</tr>
+   					<tr>
+    					<td>Color Depth</td>
+    					<td class="alt"><strong id="colorDepth">&nbsp;</strong></td>
+  					</tr> 					
+				</table>							
+			</div>
+
+		    <div class="api-div" id="api-events">
+				<h2>Events</h2>
+				<blockquote>
+					<p>PhoneGap lifecycle events.</p>
+				</blockquote>
+				<h4 class="help">Tap device (or virtual device) <code>menu</code> or <code>search</code> buttons to see example callback output.</h4>
+				<span id="eventOutput"></span>
+				<h4>Other <code>event</code> example callbacks use console.log</h4>								
+			</div>
+
+		    <div class="api-div" id="api-file">
+				<h2>File</h2>
+				<blockquote>
+					<p>An API to read, write and navigate file system hierarchies.</p>
+				</blockquote>
+				<div id="file-system-text"></div>
+				<fieldset class="ui-grid-a">				
+ 					<div class="ui-block-a">
+ 						<div data-role="button" onclick="createFile();">Create</div>
+ 					</div>
+ 					<div class="ui-block-b">
+ 						<div data-role="button" onclick="writeFile();">Write</div>
+ 					</div>
+   					<span id="file-status">Status:</span>
+   					<span id="file-contents"></span>
+   				</fieldset>
+				<fieldset class="ui-grid-a">				
+ 					<div class="ui-block-a">
+   						<div data-role="button" onclick="readFile();">Read</div>
+   					</div>
+ 					<div class="ui-block-b">
+ 						<div data-role="button" onclick="removeFile();">Remove</div>
+ 					</div>
+   					Read text: <span id="file-read-text"></span><br/>
+   					Data Url: <span id="file-read-dataurl"></span>
+   				</fieldset>
+			</div>
+
+		    <div class="api-div" id="api-geolocation">
+				<h2>Geolocation</h2>
+				<blockquote>
+  					<p>The <code>geolocation</code> object provides access to the device's GPS sensor.</p>
+				</blockquote>
+				<h4 class="help"><b>Toggle</b> to stop/start
+				geolocation watch. <br/><b>Get Current</b> for one-time geolocation reading.</h4>
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><div data-role="button" onclick="toggleWatchPosition();">Toggle</div></div>
+					<div class="ui-block-b"><div data-role="button" onclick="getCurrentPosition();">Get Current</div></div>
+				</div>
+   				<div id="cur_position"></div>
+   				<img id="map"/>								
+			</div>
+
+		    <div class="api-div" id="api-media">
+				<h2>Media</h2>
+				<blockquote>
+  					<p>The <code>Media</code> object provides the ability to record and play back audio files on a device. </p>
+				</blockquote>
+				<b>Play MP3 Song</b>
+				<div data-role="controlgroup" data-type="horizontal">				
+					<div data-role="button" id="playaudio" class="wider-btn" data-theme="b">&nbsp;Play&nbsp;</div>
+					<div data-role="button" id="pauseaudio" class="wider-btn" data-theme="b">Pause</div>
+					<div data-role="button" id="stopaudio" class="wider-btn" data-theme="b">&nbsp;Stop&nbsp;</div>	
+				<div class="ui-grid-a">
+					<div class="ui-block-a"> Current: <span id="audio_position">0 sec</span></div>
+					<div class="ui-block-b">Total: <span id=media_dur>0</span> sec</div>
+				</div>
+				</div>
+				<b>Live Audio Recording (5 sec)</b>
+ 				<div data-role="controlgroup" data-type="horizontal">	
+ 					<div data-role="button" id="startRecord" class="wider-btn" data-theme="b">Record Audio</div>
+ 					<div data-role="button" id="playbackRecord" class="wider-btn" data-theme="b">&nbsp;Playback&nbsp;</div>
+				<div class="ui-grid-a">
+   					<div class="ui-block-a">Status: <span id="record-status"></span></div>
+   					<div class="ui-block-b"><span id="record-time"></span></div>
+   				</div>
+				</div>
+			</div>
+
+		    <div class="api-div" id="api-notification">
+				<h2>Notification</h2>
+				<blockquote>
+  					<p>Visual, audible, and tactile device notifications.</p>
+				</blockquote>
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button onclick="showAlert();" data-theme="c" data-icon="alert">Alert</button></div>
+					<div class="ui-block-b"><button onclick="showConfirm();" data-theme="c" data-icon="check">Confirm</button></div>	   
+				</fieldset>				
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button onclick="beep();" data-theme="b">Beep</button></div>
+					<div class="ui-block-b"><button onclick="vibrate();" data-theme="b">Vibrate</button></div>	   
+				</fieldset>				
+			</div>
+
+		    <div class="api-div" id="api-storage">
+				<h2>Storage</h2>
+				<blockquote>
+  					<p>Provides access to the devices storage options.</p>
+				</blockquote>
+				<h4 class="help">Based on <strong>W3C Web SQL Database Spec</strong> and <strong>W3C Web Storage API Spec</strong></h4>							
+				<div data-role="controlgroup">
+					<div data-role="button" onclick="createDB();">Create DB</div>
+					<div data-role="button" onclick="getSqlResultSet();">SQL Result Set</div>
+					<div class="ui-grid-a">
+					SQL Result: <br/><span id="sql-result"></span><br/>
+					</div>
+				</div>
+				
+				<div data-role="controlgroup">
+					<div data-role="button" onclick="writeLocalStorage();">Write LocalStorage</div>
+					<div data-role="button" onclick="readLocalStorage();">Read LocalStorage</div>
+					<div data-role="button" onclick="removeItemLocalStorage();">Remove Item</div>
+					<div class="ui-grid-a">
+					Local Storage: <span id="local-storage-result"></span><br/>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div data-role="footer" data-position="fixed" class="footer-docs" data-theme="b">
+		<p>&copy; 2012 Mobile Developer Solutions</p>
+	</div>	
+	</div>	
+	<script type="text/javascript" charset="utf-8" src="apis/accelerometer.js"></script>
+	<script type="text/javascript" charset="utf-8" src="apis/camera.js"></script>
+	<script type="text/javascript" charset="utf-8" src="apis/capture.js"></script>
 	<script type="text/javascript" charset="utf-8" src="apis/compass.js"></script>
 	<script type="text/javascript" charset="utf-8" src="apis/connection.js"></script>
 	<script type="text/javascript" charset="utf-8" src="apis/contacts.js"></script>
-<!-- 	<script type="text/javascript" charset="utf-8" src="apis/device.js"></script> -->
+	<script type="text/javascript" charset="utf-8" src="apis/device.js"></script>
 	<script type="text/javascript" charset="utf-8" src="apis/events.js"></script>
- 	<script type="text/javascript" charset="utf-8" src="apis/file.js"></script>
+	<script type="text/javascript" charset="utf-8" src="apis/file.js"></script>
 	<script type="text/javascript" charset="utf-8" src="apis/geolocation.js"></script>
 	<script type="text/javascript" charset="utf-8" src="apis/media.js"></script>
 	<script type="text/javascript" charset="utf-8" src="apis/notification.js"></script>
-	<script type="text/javascript" charset="utf-8" src="apis/storage.js"></script>
-
-	 	
-</body>
+	<script type="text/javascript" charset="utf-8" src="apis/storage.js"></script> 			
+  </body>
 </html>

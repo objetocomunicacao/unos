@@ -18,18 +18,15 @@
  */
 
 function onBackbutton() {
-    // the intro div is considered home, so exit if user
+    // the intro div is considered home, so exit if use
     // wants to go back with button from there
-    if (document.getElementById('login').style.display === 'block') {
+    if ($('.api-div#api-intro').css('display') === 'block') {
         console.log("Exiting app");
         navigator.app.exitApp();
     } else {    
-        var divs = document.getElementsByClassName('api-div');   
-        for(var i=0; i<divs.length; i++) { 
-            divs[i].style.display='none';
-        }
-        document.getElementById('api-intro').style.display = 'block';
-        scroll(0,0);
+        $('.api-div').hide();
+        $('.api-div#api-intro').show();
+        $.mobile.silentScroll(0);
     }
 }
 var onDeviceReady = function() {
@@ -56,7 +53,7 @@ var onDeviceReady = function() {
     document.addEventListener("resume", onEventFired, false);
     document.addEventListener("online", onEventFired, false);
     document.addEventListener("offline", onEventFired, false);
-    // using callback for backbutton event may interfere with expected behavior
+    // using callback for backbutton event may interfere with normal behavior
     document.addEventListener("backbutton", onBackbutton, false);
     document.addEventListener("batterycritical", onEventFired, false);
     document.addEventListener("batterylow", onEventFired, false);
@@ -65,11 +62,11 @@ var onDeviceReady = function() {
     document.addEventListener("endcallbutton", onEventFired, false);
     document.addEventListener("volumedownbutton", onEventFired, false);
     document.addEventListener("volumeupbutton", onEventFired, false);
-   
+    
     // api-camera  Photo URI
     pictureSource=navigator.camera.PictureSourceType;
     destinationType=navigator.camera.DestinationType;
-    
+       
     // The Samsung Galaxy Tab 10.1 is currently the only device known to
     // support orientation/change correctly and reliably.
     if (device.name === "GT-P7510") {
@@ -88,37 +85,4 @@ var onDeviceReady = function() {
 
 function init() {
     document.addEventListener("deviceready", onDeviceReady, true);
-
-    document.getElementById('login').style.display = 'block';
-    
-    var showApi = function(e) {
-        var apiId = this.id;
-        var divs = document.getElementsByClassName('api-div');   
-        for(var j=0; j<divs.length; j++) { 
-            divs[j].style.display='none';
-        }
-        var apiEl = document.getElementById('api-' + apiId);
-        apiEl.style.display = 'block';
-        scroll(0,0);
-    };
-    // add click to each api name / div
-    var apiList = document.getElementById('menu').getElementsByTagName('a');
-    for(var i=0; i< apiList.length; i++) { 
-        apiList[i].addEventListener('click', showApi, false);
-    }
-
-//    var $select = document.getElementById('subheader').getElementsByTagName('select')[0];
-//    if ($select) {
-//        $select.addEventListener('change', function(e) {
-//            var api = this.options[this.selectedIndex].value;
-//            //alert("value: " + api);
-//            
-//            var divs = document.getElementsByClassName('api-div');   
-//            for(var j=0; j<divs.length; j++) { 
-//                divs[j].style.display='none';
-//            }
-//            document.getElementById('api-' + api).style.display = 'block';
-//            
-//        }, false);
-//    } else { alert("no select here"); }
 }

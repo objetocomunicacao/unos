@@ -25,18 +25,18 @@ var destinationType; // sets the format of returned value
 // api-camera
 function onPhotoDataSuccess(imageData) {
     console.log("* * * onPhotoDataSuccess");
-    var image = document.getElementById('cameraImage');
-    image.style.display = 'block';
-    image.src = "data:image/jpeg;base64," + imageData;
+    var cameraImage = document.getElementById('cameraImage');
+    cameraImage.style.visibility = 'visible';
+    cameraImage.src = "data:image/jpeg;base64," + imageData;
 }
 
 function onPhotoURISuccess(imageURI) {
     console.log("* * * onPhotoURISuccess");
     // Uncomment to view the image file URI 
     // console.log(imageURI);
-    var image = document.getElementById('cameraImage');
-    image.style.display = 'block';
-    image.src = imageURI;
+    var cameraImage = document.getElementById('cameraImage');
+    cameraImage.style.visibility = 'visible';
+    cameraImage.src = imageURI;
 }
 
 function take_pic() {

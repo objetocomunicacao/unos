@@ -23,7 +23,7 @@ var mediaTimer = null;
 var dur = -1;  // duration of media (song)
 var is_paused = false; // need to know when paused or not
 function setAudioPosition(position) {
-    document.getElementById('audio_position').innerHTML = "<b>" + position + " sec</b>";
+    $("#audio_position").html(position + " sec");
 }
 function onSuccess() {
     setAudioPosition(dur);
@@ -44,8 +44,8 @@ function onError(error) {
 }
 function playAudio(src) {
     if (my_media === null) {       
-        document.getElementById('media_dur').innerHTML = "<b>0</b>"; // ui niceties
-        document.getElementById('audio_position').innerHTML = "<b>Loading...</b>";        
+        $("#media_dur").html("0"); // ui niceties
+        $("#audio_position").html("Loading...");        
         // Create Media object from src
         my_media = new Media(src, onSuccess, onError);       
         //alert('Playing Audio');
@@ -71,7 +71,7 @@ function playAudio(src) {
                                 dur = my_media.getDuration();                             
                                 if (dur > 0) {
                                     dur = Math.round(dur);
-                                    document.getElementById('media_dur').innerHTML =  "<b>" + dur + "</b>";
+                                    $("#media_dur").html(dur);
                                 }
                             }                                                      
                         }
@@ -79,27 +79,12 @@ function playAudio(src) {
                     // error callback
                     function(e) {
                         alert("Error getting pos=" + e);
-                        setAudioPosition("<b>Error: " + e + "</b>");
+                        setAudioPosition("Error: " + e);
                     }
             );
         }, 1000);
     }
 }
-
-function playMyAudio() {      
-    check_network();
-    if (document.getElementById('connectionstate').innerHTML === 'No network connection') {
-        alert("Need network connection to play song from internet");
-        return false;
-    }
-    // Note: Two ways to access media file: (1) web (below)        
-    var src = 'http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3';        
-    // (2) local (on device): copy file to project's /assets folder, acces with:
-    // var src = '/android_asset/yourthemesong.m4a'; 
-     
-    playAudio(src);
-}
-
 function pauseAudio() {
     if (is_paused) { return; }
     if (my_media) {
@@ -127,41 +112,73 @@ function playbackRecord() {
     if (mediaRec) {
         //mediaRec.seekTo(0);  gives error ?
         mediaRec.play();
-        document.getElementById('record-status').innerHTML = "<b>Playing</b>";
+        $('#record-status').html("Playing");
         console.log("Playing Audio");
     }
 }
 function recordSuccess() {
     console.log("Record Success");
-    document.getElementById('record-status').innerHTML = "<b>Success</b>";
+    $('#record-status').html("Success");
+    $('#playbackRecord').live('tap', function() {
+        playbackRecord();
+    });
 }
 function recordError(error) {
     // After 1st time always shows error, but may be bug instead
+    // $('#record-status').html("Error: " + error.code); 
     console.log('Record Error: code: ' + error.code);
 }
 function startRecord() {
     var src = "myrecording.mp3";
     
     // disable playback while recording
+    $('#playbackRecord').live('tap', function() { });
     if (mediaRec) {
         mediaRec.release();  // help prevent errors
     }
     mediaRec = new Media(src, recordSuccess, recordError);
 
     mediaRec.startRecord();
-    document.getElementById('record-status').innerHTML = '<span style="color:#f22;"><b>Recording</b></span>';
-    document.getElementById('record-time').innerHTML = '<b>0 sec</b>';
+    $('#record-status').html('<span style="color:#f22;">Recording</span>');
+    $('#record-time').html("0 sec");
 
     // Stop recording after 5 sec
     var recTime = 0;
     var recInterval = setInterval(function() {
         recTime = recTime + 1;
-        document.getElementById('record-time').innerHTML = "<b>" + recTime + ' sec</b>';
+        $('#record-time').html(recTime + " sec");
         if (recTime >= 5) {
             clearInterval(recInterval);
-            document.getElementById('record-status').innerHTML = '<b>Recorded: 5sec</b>';
+            $('#record-status').html("Recorded: ");
             mediaRec.stopRecord();
         }
     }, 1000);    
 }
 
+$(document).ready(function() {       
+    $("#playaudio").live('tap', function() {
+        check_network();
+        if ($('#connection').html() === 'No network connection') {
+            alert("Need network connection to play song from internet");
+            return false;
+        }
+        // Note: Two ways to access media file: (1) web (below)        
+        var src = 'http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3';        
+        // (2) local (on device): copy file to project's /assets folder, acces with:
+        // var src = '/android_asset/yourthemesong.m4a'; 
+        
+        playAudio(src);
+    });
+    $("#pauseaudio").live('tap', function() {
+        pauseAudio();
+    });    
+    $("#stopaudio").live('tap', function() {
+        stopAudio();
+    });
+    $("#startRecord").live('tap', function() {
+        startRecord();
+    });    
+    $("#playbackRecord").live('tap', function() {
+        //playbackRecord(); function added at recordSuccess()
+    });    
+});

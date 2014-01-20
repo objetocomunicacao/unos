@@ -20,22 +20,19 @@
 var myFS = 0;
 var myFileEntry = 0;
 function failFS(evt) {
-    console.log("File System Error: " + evt.target.error.code);
-    document.getElementById('file-system-text').innerHTML = 
-        "<strong>File System Error: " + evt.target.error.code + "</strong>";  
+    console.log(evt.target.error.code);
+    $('#file-system-text').html("<strong>File System Error: " + evt.target.error.code + "</strong>");  
 }
 function writeFail(error) {
     console.log("Create/Write Error: " + error.code);
-    document.getElementById('file-status').innerHTML = 
-        "Create/Write <strong>Error: " + error.code + "</strong>";   
+    $('#file-status').html("Create/Write <strong>Error: " + error.code + "</strong>");   
 }
 
 // api-file  Create
 function createGotNewFile(file){
-    document.getElementById('file-status').innerHTML = 
-        "Created: <strong>" + file.fullPath + "</strong>";
-    document.getElementById('file-read-text').innerHTML = '';  
-    document.getElementById('file-read-dataurl').innerHTML = '';
+    $('#file-status').html("Created: <strong>" + file.fullPath + "</strong>");
+    $('#file-read-text').empty();  
+    $('#file-read-dataurl').empty();
 }
 function createGotFileEntry(fileEntry) {
     myFileEntry = fileEntry;
@@ -45,9 +42,8 @@ function gotFS(fileSystem) {
     myFS = fileSystem;
     console.log(fileSystem.name);
     console.log(fileSystem.root.name);
-    document.getElementById('file-system-text').innerHTML =
-        "File System: <strong>" + fileSystem.name + "</strong> " +
-           "Root: <strong>" + fileSystem.root.name + "</strong>";
+    $('#file-system-text').html("File System: <strong>" + fileSystem.name + "</strong> " +
+            "Root: <strong>" + fileSystem.root.name + "</strong>");
     fileSystem.root.getFile("readme.txt", {create: true, exclusive: false}, createGotFileEntry, writeFail);
 }
 function createFile() { // button onclick function
@@ -62,19 +58,16 @@ function createFile() { // button onclick function
 function gotFileWriter(writer) {
     writer.onwriteend = function(evt) {
         console.log("contents of file now 'some sample text'");
-        document.getElementById('file-contents').innerHTML =
-            "<br/>Contents: <strong>some sample text</strong>";
+        $('#file-contents').html("<br/>Contents: <strong>some sample text</strong>");
         writer.truncate(11);  
         writer.onwriteend = function(evt) {
             console.log("contents of file now 'some sample'");
-            document.getElementById('file-contents').innerHTML =
-                "<br/>Contents: <strong>some sample</strong>";
+            $('#file-contents').html("<br/>Contents: <strong>some sample</strong>");
             writer.seek(4);
             writer.write(" different text");
             writer.onwriteend = function(evt){
                 console.log("contents of file now 'some different text'");
-                document.getElementById('file-contents').innerHTML =
-                        "<br/>Contents: <strong>some different text</strong>";
+                $('#file-contents').html("<br/>Contents: <strong>some different text</strong>");
             };
         };
     };
@@ -87,23 +80,22 @@ function writeFile() { // button onclick function
     if (myFileEntry) {
         gotFileEntry(myFileEntry);        
     } else {
-        document.getElementById('file-status').innerHTML ="Status: <strong>Error: File Not Created!</strong>";
+        $('#file-status').html("Status: <strong>Error: File Not Created!</strong>");
     }
 }
 
 // api-file  FileReader
 function readFail(error) {
     console.log("Read Error: " + error.code);
-    document.getElementById('file-read-text').innerHTML ="<strong>Read Error: " + error.code + "</strong>";
-    document.getElementById('file-read-dataurl').innerHTML = '';
+    $('#file-read-text').html("<strong>Read Error: " + error.code + "</strong>");
+    $('#file-read-dataurl').empty();
 }
 function readerreadDataUrl(file) {
     var reader = new FileReader();
     reader.onloadend = function(evt) {
         console.log("Read as data URL");
         console.log(evt.target.result);
-        document.getElementById('file-read-dataurl').innerHTML =
-            "<strong>" + evt.target.result.slice(0, 38) + "...</strong>";
+        $('#file-read-dataurl').html("<strong>" + evt.target.result.slice(0, 38) + "...</strong>");
     };
     reader.readAsDataURL(file);
 }
@@ -112,7 +104,7 @@ function readerreadAsText(file) {
     reader.onloadend = function(evt) {
         console.log("Read as text");
         console.log(evt.target.result);
-        document.getElementById('file-read-text').innerHTML = "<strong>" + evt.target.result + "</strong>";
+        $('#file-read-text').html("<strong>" + evt.target.result + "</strong>");
     };
     reader.readAsText(file);
 }
@@ -127,21 +119,21 @@ function readFile() { // button onclick function
     if (myFileEntry) {
         readerGotFileEntry(myFileEntry);        
     } else {
-        document.getElementById('file-status').innerHTML = "Status: <strong>Error: File Not Created!</strong>";
+        $('#file-status').html("Status: <strong>Error: File Not Created!</strong>");
         return false;
     }    
 }
 
 // api-file  Remove File
 function removeSuccess(entry) {
-    document.getElementById('file-status').innerHTML = "Removed: <strong>readme.txt</strong>"; 
-    document.getElementById('file-contents').innerHTML = "<br/>Contents:";
-    document.getElementById('file-read-dataurl').innerHTML = '';  
-    document.getElementById('file-read-text').innerHTML = '';
+    $('#file-status').html("Removed: <strong>readme.txt</strong>"); 
+    $('#file-contents').html("<br/>Contents:");
+    $('#file-read-dataurl').empty();    
+    $('#file-read-text').empty();
 }
 function removeFail(error) {
     console.log("Remove File Error: " + error.code);
-    document.getElementById('file-status').innerHTML = "Status: <strong>Remove Error: " + error.code + "</strong>";       
+    $('#file-status').html("Status: <strong>Remove Error: " + error.code + "</strong>");       
 }
 function removeFileEntry(fileEntry) {
     fileEntry.remove(removeSuccess, removeFail);
@@ -150,6 +142,6 @@ function removeFile() { // button onclick function
     if (myFileEntry) {
         removeFileEntry(myFileEntry);        
     } else {
-        document.getElementById('file-status').innerHTML = "Status: <strong>Error: File Not Created!</strong>";
+        $('#file-status').html("Status: <strong>Error: File Not Created!</strong>");
     }    
 }
